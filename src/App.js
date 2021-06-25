@@ -1,130 +1,67 @@
-import "./App.css";
-import { Menubar } from "primereact/menubar";
-const items = [
-  {
-    label: "File",
-    icon: "pi pi-fw pi-file",
-    items: [
-      {
-        label: "New",
-        icon: "pi pi-fw pi-plus",
-        items: [
-          {
-            label: "Bookmark",
-            icon: "pi pi-fw pi-bookmark",
-          },
-          {
-            label: "Video",
-            icon: "pi pi-fw pi-video",
-          },
-        ],
-      },
-      {
-        label: "Delete",
-        icon: "pi pi-fw pi-trash",
-      },
-      {
-        separator: true,
-      },
-      {
-        label: "Export",
-        icon: "pi pi-fw pi-external-link",
-      },
-    ],
-  },
-  {
-    label: "Edit",
-    icon: "pi pi-fw pi-pencil",
-    items: [
-      {
-        label: "Left",
-        icon: "pi pi-fw pi-align-left",
-      },
-      {
-        label: "Right",
-        icon: "pi pi-fw pi-align-right",
-      },
-      {
-        label: "Center",
-        icon: "pi pi-fw pi-align-center",
-      },
-      {
-        label: "Justify",
-        icon: "pi pi-fw pi-align-justify",
-      },
-    ],
-  },
-  {
-    label: "Users",
-    icon: "pi pi-fw pi-user",
-    items: [
-      {
-        label: "New",
-        icon: "pi pi-fw pi-user-plus",
-      },
-      {
-        label: "Delete",
-        icon: "pi pi-fw pi-user-minus",
-      },
-      {
-        label: "Search",
-        icon: "pi pi-fw pi-users",
-        items: [
-          {
-            label: "Filter",
-            icon: "pi pi-fw pi-filter",
-            items: [
-              {
-                label: "Print",
-                icon: "pi pi-fw pi-print",
-              },
-            ],
-          },
-          {
-            icon: "pi pi-fw pi-bars",
-            label: "List",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Events",
-    icon: "pi pi-fw pi-calendar",
-    items: [
-      {
-        label: "Edit",
-        icon: "pi pi-fw pi-pencil",
-        items: [
-          {
-            label: "Save",
-            icon: "pi pi-fw pi-calendar-plus",
-          },
-          {
-            label: "Delete",
-            icon: "pi pi-fw pi-calendar-minus",
-          },
-        ],
-      },
-      {
-        label: "Archieve",
-        icon: "pi pi-fw pi-calendar-times",
-        items: [
-          {
-            label: "Remove",
-            icon: "pi pi-fw pi-calendar-minus",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Quit",
-    icon: "pi pi-fw pi-power-off",
-  },
-];
+import React, { useState, useRef, useEffect } from "react";
+import { InputText } from "primereact/inputtext";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 function App() {
-  return <Menubar model={items} />;
+  const [text, setText] = useState("");
+  return (
+    <div className="max-w-md mx-auto bg-red-600 m-2 p-4">
+      <div className="font-bold text-4xl text-center text-white">
+        Recipie Form
+      </div>
+      <div className="p-field my-4">
+        <label htmlFor="rname" className="p-d-block text-white">
+          Recipe Name
+        </label>
+        <InputText
+          id="rname"
+          aria-describedby="recipe-name"
+          className="p-d-block w-full"
+        />
+        <small id="username1-help" className="p-d-block text-red-200">
+          Enter Your Recipie Name
+        </small>
+      </div>
+      <div className="p-field my-4">
+        <label htmlFor="rname" className="p-d-block text-white">
+          Recipe Name
+        </label>
+        <CKEditor
+          editor={ClassicEditor}
+          data="<p>Hello from CKEditor 5!</p>"
+          onReady={(editor) => {
+            // You can store the "editor" and use when it is needed.
+            console.log("Editor is ready to use!", editor);
+          }}
+          onChange={(event, editor) => {
+            const data = editor.getData();
+            setText(data);
+            console.log({ event, editor, data });
+          }}
+          onBlur={(event, editor) => {
+            console.log("Blur.", editor);
+          }}
+          onFocus={(event, editor) => {
+            console.log("Focus.", editor);
+          }}
+        />
+      </div>
+      <div className="p-field my-4">
+        <label htmlFor="rname" className="p-d-block text-white">
+          Recipe Name
+        </label>
+        <InputText
+          id="rname"
+          aria-describedby="recipe-name"
+          className="p-d-block w-full"
+        />
+        <small id="username1-help" className="p-d-block text-red-200">
+          Enter Your Recipie Name
+        </small>
+      </div>
+      <div dangerouslySetInnerHTML={{ __html: `${text}` }}></div>
+    </div>
+  );
 }
 
 export default App;
